@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+	<h1>你好, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+	<h3>{% if place %}你想去的地方: {{ place }}, 时间在: {{time}}{% else %}{% endif %}</h3>
+	<p>{% if place %}可继续填写下一计划：{% else %}{% endif %}</p>
+</div>
+{{ wtf.quick_form(form) }}
+{% endblock %}
