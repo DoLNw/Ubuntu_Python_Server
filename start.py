@@ -87,7 +87,7 @@ def my_echart():
         time1=time1, time2=time2, time3=time3, time4=time4, time5=time5, time6=time6, time7=time7)
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run(host="0.0.0.0", debug=True)
 
 
 
