@@ -57,7 +57,7 @@ def index():
             conn.rollback()
         finally:
             conn.close()
-        return redirect('')
+        # return redirect('')
         
         return redirect(url_for('my_echart'))#Post/重定向/Get请求,可是如果用session的话，刚进入网址就不会有Stranger了
     return render_template("tst_form.html", form=form, name=session.get('name'), place=session.get('place'), time=session.get('time'))
