@@ -5,7 +5,7 @@ Created on Sun Dec 16 20:23:34 2018
 @author: ROSS
 """
 
-import sqlite3
+import pymysql
 from flask import Flask, render_template, url_for, redirect, session
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -46,13 +46,18 @@ def index():
         session['place']= form.tag.choices[form.tag.data-1][1]
         form.name.data = ""
 
-        conn = sqlite3.connect('travel_data.db')
-        query = 'INSERT INTO travel VALUES (?,?,?)'
-        value = [(session['name'], session['place'], session['time'])]
-        conn.cursor().executemany(query, value)
-        conn.commit()
-        conn.close()
-        #return redirect('')
+        conn = pymysql.connect(host="localhost", port=3306, user="JiaCheng", passwd='1234abcd', db='JiaChengFirst')
+        curs = conn.cursor()
+        query = 'INSERT INTO travel_data VALUES (%s,%s,%s)'
+        value = (session['name'], session['place'], session['time'])
+        try:
+            curs.execute(query, value)
+            conn.commit()
+        except:
+            conn.rollback()
+        finally:
+            conn.close()
+        return redirect('')
         
         return redirect(url_for('my_echart'))#Post/重定向/Get请求,可是如果用session的话，刚进入网址就不会有Stranger了
     return render_template("tst_form.html", form=form, name=session.get('name'), place=session.get('place'), time=session.get('time'))
@@ -67,8 +72,8 @@ def my_echart():
 #在浏览器上渲染my_templaces.html模板
     time1=0;time2=0;time3=0;time4=0;time5=0;time6=0;time7=0;
     place1=0;place2=0;place3=0;place4=0;place5=0;
-    conn = sqlite3.connect('travel_data.db')
-    values = list(conn.cursor().execute('SELECT * FROM travel'))
+    conn = pymysql.connect(host="localhost", port=3306, user="JiaCheng", passwd='1234abcd', db='JiaChengFirst')
+    values = list(conn.cursor().execute('SELECT * FROM travel_data'))
     place1 = (conn.cursor().execute("SELECT count(place) FROM travel where place='杭州'").fetchall())[0][0]
     place2 = (conn.cursor().execute("SELECT count(place) FROM travel where place='湖州'").fetchall())[0][0]
     place3 = (conn.cursor().execute("SELECT count(place) FROM travel where place='苏州'").fetchall())[0][0]
