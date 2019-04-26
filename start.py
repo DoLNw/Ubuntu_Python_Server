@@ -73,19 +73,33 @@ def my_echart():
     time1=0;time2=0;time3=0;time4=0;time5=0;time6=0;time7=0;
     place1=0;place2=0;place3=0;place4=0;place5=0;
     conn = pymysql.connect(host="localhost", port=3306, user="JiaCheng", passwd='1234abcd', db='JiaChengFirst')
-    values = list(conn.cursor().execute('SELECT * FROM travel_data'))
-    place1 = (conn.cursor().execute("SELECT count(place) FROM travel where place='杭州'").fetchall())[0][0]
-    place2 = (conn.cursor().execute("SELECT count(place) FROM travel where place='湖州'").fetchall())[0][0]
-    place3 = (conn.cursor().execute("SELECT count(place) FROM travel where place='苏州'").fetchall())[0][0]
-    place4 = (conn.cursor().execute("SELECT count(place) FROM travel where place='北京'").fetchall())[0][0]
-    place5 = (conn.cursor().execute("SELECT count(place) FROM travel where place='香港'").fetchall())[0][0]
-    time1 = (conn.cursor().execute("SELECT count(time) FROM travel where time='星期一'").fetchall())[0][0]
-    time2 = (conn.cursor().execute("SELECT count(time) FROM travel where time='星期二'").fetchall())[0][0]
-    time3 = (conn.cursor().execute("SELECT count(time) FROM travel where time='星期三'").fetchall())[0][0]
-    time4 = (conn.cursor().execute("SELECT count(time) FROM travel where time='星期四'").fetchall())[0][0]
-    time5 = (conn.cursor().execute("SELECT count(time) FROM travel where time='星期五'").fetchall())[0][0]
-    time6 = (conn.cursor().execute("SELECT count(time) FROM travel where time='星期六'").fetchall())[0][0]
-    time7 = (conn.cursor().execute("SELECT count(time) FROM travel where time='星期日'").fetchall())[0][0]
+    curs = conn.cursor()
+
+    curs.execute("SELECT count(place) FROM travel_data where place='杭州'")
+    place1 = curs.fetchall()[0][0]
+    curs.execute("SELECT count(place) FROM travel_data where place='湖州'")
+    place2 = curs.fetchall()[0][0]
+    curs.execute("SELECT count(place) FROM travel_data where place='苏州'")
+    place3 = curs.fetchall()[0][0]
+    curs.execute("SELECT count(place) FROM travel_data where place='北京'")
+    place4 = curs.fetchall()[0][0]
+    curs.execute("SELECT count(place) FROM travel_data where place='香港'")
+    place5 = curs.fetchall()[0][0]
+
+    curs.execute("SELECT count(time) FROM travel_data where time='星期一'")
+    time1 = curs.fetchall()[0][0]
+    curs.execute("SELECT count(time) FROM travel_data where time='星期二'")
+    time2 = curs.fetchall()[0][0]
+    curs.execute("SELECT count(time) FROM travel_data where time='星期三'")
+    time3 = curs.fetchall()[0][0]
+    curs.execute("SELECT count(time) FROM travel_data where time='星期四'")
+    time4 = curs.fetchall()[0][0]
+    curs.execute("SELECT count(time) FROM travel_data where time='星期五'")
+    time5 = curs.fetchall()[0][0]
+    curs.execute("SELECT count(time) FROM travel_data where time='星期六'")
+    time6 = curs.fetchall()[0][0]
+    curs.execute("SELECT count(time) FROM travel_data where time='星期日'")
+    time7 = curs.fetchall()[0][0]
     conn.close()
 
     return render_template('charts.html', place1=place1, place2=place2, place3=place3, place4=place4, place5=place5, \
